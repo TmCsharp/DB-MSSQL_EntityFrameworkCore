@@ -117,3 +117,44 @@ JOIN Repositories AS r ON r.Id = rc.RepositoryId
 JOIN Commits AS c ON c.RepositoryId = r.Id
 GROUP BY rc.RepositoryId, r.Id, r.[Name]
 ORDER BY COUNT(c.Id) DESC, r.Id, r.[Name]; 
+
+
+
+SELECT  
+	u.Username,
+	AVG(f.Size)
+FROM Commits AS c
+JOIN Users AS u ON c.ContributorId = u.Id
+JOIN Files AS f ON c.Id = f.CommitId
+GROUP BY u.Username
+ORDER BY AVG(f.Size) DESC, u.Username
+
+
+CREATE FUNCTION udf_AllUserCommits(@username INT)
+RETURNS INT
+AS
+BEGIN
+	DECLARE @commitsCount INT;
+
+	SET @commitsCount = (
+	SELECT 
+		COUNT(c.Id) 	
+	FROM Commits AS c
+	JOIN Users AS u ON c.ContributorId = u.Id
+	WHERE u.Username = @username
+	);
+	RETURN @commitsCount;
+END;
+
+
+CREATE PROCEDURE usp_SearchForFiles(@fileExtension VARCHAR(10))
+AS 
+BEGIN 
+	SELECT
+		f.Id,
+		f.[Name],
+		CONCAT(f.Size, 'KB')
+	FROM Files AS f
+	WHERE f.[Name] LIKE CONCAT('%', @fileExtension)
+	ORDER BY f.Id, f.[Name], f.Size DESC;
+END;
