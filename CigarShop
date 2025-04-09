@@ -74,3 +74,39 @@ WHERE BrandDescription IS NULL;
 
 DELETE FROM Addresses
 WHERE Country LIKE 'C%';
+
+
+SELECT 
+	CigarName,
+	PriceForSingleCigar,
+	ImageURL
+FROM Cigars
+ORDER BY PriceForSingleCigar, CigarName DESC;
+
+
+
+SELECT 
+	c.Id,
+	c.CigarName,
+	c.PriceForSingleCigar,
+	t.TasteType,
+	t.TasteStrength
+FROM Cigars AS c
+JOIN Tastes AS t ON c.TastId = t.Id
+WHERE TasteType = 'Earthy' OR TasteType = 'Woody'
+ORDER BY PriceForSingleCigar DESC;
+
+
+
+
+SELECT
+	c.Id,
+	CONCAT(c.FirstName, ' ', c.LastName) AS ClientName,
+	c.Email	
+FROM Clients AS c
+LEFT JOIN ClientsCigars AS cc ON c.Id = cc.ClientId
+WHERE cc.ClientId IS NULL
+ORDER BY ClientName;
+
+
+
