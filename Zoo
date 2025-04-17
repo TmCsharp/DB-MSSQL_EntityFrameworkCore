@@ -68,3 +68,15 @@ DELETE FROM VolunteersDepartments
 WHERE DepartmentName = 'Education program assistant';
 
 
+
+SELECT 
+	[Name],
+	PhoneNumber,
+	[Address],
+	AnimalId,
+	DepartmentId
+FROM Volunteers
+ORDER BY [Name], AnimalId, DepartmentId;
+
+
+
