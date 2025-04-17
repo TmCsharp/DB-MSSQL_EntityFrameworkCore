@@ -61,3 +61,10 @@ VALUES  ('Girafe', '2018-09-21', 21, 1),
 UPDATE Animals
 SET OwnerId = 4
 WHERE OwnerId IS NULL;
+
+
+
+DELETE FROM VolunteersDepartments
+WHERE DepartmentName = 'Education program assistant';
+
+
