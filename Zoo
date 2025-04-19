@@ -88,3 +88,26 @@ SELECT
 	DepartmentId
 FROM Volunteers
 ORDER BY [Name], AnimalId, DepartmentId;
+
+
+
+SELECT 
+	v.[Name],
+	v.PhoneNumber,
+	TRIM(REPLACE(REPLACE(v.[Address], 'Sofia', ''), ',', ''))
+FROM Volunteers AS v
+JOIN VolunteersDepartments AS vd ON v.DepartmentId = vd.Id
+WHERE vd.DepartmentName = 'Education program assistant'
+AND v.[Address] LIKE '%Sofia%'
+ORDER BY v.[Name];
+
+
+SELECT 
+	a.[Name],
+	YEAR(a.[BirthDate]) AS BirthYear,
+	[at].AnimalType
+FROM Animals AS a
+JOIN AnimalTypes AS [at] ON a.AnimalTypeId = [at].Id
+WHERE OwnerId IS NULL AND [at].AnimalType != 'Birds'
+AND a.BirthDate >= DATEADD(YEAR, -4, '01/01/2022')
+ORDER BY a.[Name];
